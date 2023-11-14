@@ -27,3 +27,5 @@ int pocet(CiselnaRada& pole) {
 
     return pocetPrvku;
 }
+
+//zkusebni kommit
