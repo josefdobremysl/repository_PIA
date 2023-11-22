@@ -1,0 +1,81 @@
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <iostream>
+
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 300;
+
+int main() {
+    // Inicializace Allegro
+    if (!al_init()) {
+        std::cerr << "Failed to initialize Allegro!" << std::endl;
+        return 1;
+    }
+
+    // Inicializace modulu pro vykreslování
+    if (!al_init_primitives_addon()) {
+        std::cerr << "Failed to initialize primitives addon!" << std::endl;
+        return 1;
+    }
+
+    // Inicializace modulu pro načítání obrázků
+    if (!al_init_image_addon()) {
+        std::cerr << "Failed to initialize image addon!" << std::endl;
+        return 1;
+    }
+
+    // Vytvoření okna 
+    ALLEGRO_DISPLAY* display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
+    if (!display) {
+        std::cerr << "Failed to create display!" << std::endl;
+        return 1;
+    }
+
+    // Načtení obrázku
+    ALLEGRO_BITMAP* logo = al_load_bitmap("C:\\Users\\Admin\\Downloads\\pi.png");
+    if (!logo) {
+        std::cerr << "Failed to load image!" << std::endl;
+        al_destroy_display(display);
+        return 1;
+    }
+
+    // Nastavení barvy pozadí okna
+    al_clear_to_color(al_map_rgb(255, 255, 255));
+
+    // Počáteční pozice a směr pohybu
+    float x = SCREEN_WIDTH / 2.0 - al_get_bitmap_width(logo) / 2.0;
+    float y = SCREEN_HEIGHT / 2.0 - al_get_bitmap_height(logo) / 2.0;
+    float speedX = 1.0;
+    float speedY = 1.0;
+
+   
+    while (true) {
+        // Pohyb logo
+        x += speedX;
+        y += speedY;
+
+        // Kolize s okraji obrazovky
+        if (x < 0 || x > SCREEN_WIDTH - al_get_bitmap_width(logo)) {
+            speedX = -speedX; // Obrat směr na ose X
+        }
+
+        if (y < 0 || y > SCREEN_HEIGHT - al_get_bitmap_height(logo)) {
+            speedY = -speedY; // Obrat směr na ose Y
+        }
+
+        // Vymazání obsahu okna
+        al_clear_to_color(al_map_rgb(255, 255, 255));
+
+        // Vykreslení na aktuální pozici
+        al_draw_bitmap(logo, x, y, 0);
+
+        al_flip_display();
+    }
+
+    // Uvolnění paměti
+    al_destroy_bitmap(logo);
+    al_destroy_display(display);
+
+    return 0;
+}
