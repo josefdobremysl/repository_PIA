@@ -42,8 +42,6 @@ int main() {
         return 1;
     }
 
-    // Nastavení barvy pozadí okna
-    al_clear_to_color(al_map_rgb(255, 255, 255));
 
     // Počáteční pozice a směr pohybu
     float x = SCREEN_WIDTH / 2.0 - al_get_bitmap_width(logo1) / 2.0-50;
@@ -54,6 +52,9 @@ int main() {
     bool logoChanged = false;
 
     while (true) {
+        // Nastavení barvy pozadí okna
+        al_clear_to_color(al_map_rgb(255, 255, 255));
+
         // Pohyb logo
         x += speedX;
         y += speedY;
