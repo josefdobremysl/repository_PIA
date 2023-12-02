@@ -36,8 +36,8 @@ int main() {
     }
 
     // Naètení obrázkù
-    ALLEGRO_BITMAP* logo1 = al_load_bitmap("C:\\CVUT\\pomoc.png");
-    ALLEGRO_BITMAP* logo2 = al_load_bitmap("C:\\CVUT\\pomoc.png");
+    ALLEGRO_BITMAP* logo1 = al_load_bitmap("./penguin.png");
+    ALLEGRO_BITMAP* logo2 = al_load_bitmap("./penguin.png");
 
     if (!logo1 || !logo2) {
         std::cerr << "Failed to load images!" << std::endl;
@@ -46,8 +46,8 @@ int main() {
     }
 
     // Poèáteèní pozice a smìr pohybu
-    float x = SCREEN_WIDTH / 2.0 - al_get_bitmap_width(logo1) / 2.0 - 50;
-    float y = SCREEN_HEIGHT / 2.0 - al_get_bitmap_height(logo1) / 2.0;
+    float x = 0; // SCREEN_WIDTH / 2.0 - al_get_bitmap_width(logo1) / 2.0 + 50;
+    float y = 0; // SCREEN_HEIGHT / 2.0 - al_get_bitmap_height(logo1) / 2.0;
     float speedX = 0.05;
     float speedY = 0.05;
 
