@@ -36,7 +36,7 @@ int main() {
     }
 
     // Naètení obrázkù
-    ALLEGRO_BITMAP* logo1 = al_load_bitmap("./penguin.png");
+    ALLEGRO_BITMAP* logo1 = al_load_bitmap("./square.png");
     ALLEGRO_BITMAP* logo2 = al_load_bitmap("./penguin.png");
 
     if (!logo1 || !logo2) {
@@ -56,14 +56,16 @@ int main() {
     int diffScreenLogoH = SCREEN_HEIGHT - al_get_bitmap_height(logo1); //calculate height difference of screen and logo
     int diffScreenLogoW = SCREEN_WIDTH - al_get_bitmap_width(logo1); //calculate width difference of screen and logo
 
-    std::cout << diffScreenLogoH << std::endl;
-    std::cout << diffScreenLogoW << std::endl;
+    std::cout << "Velikost obrazovky: " << SCREEN_HEIGHT << "and" << SCREEN_WIDTH << std::endl;
+    std::cout << "Velikost obrazku1: " << al_get_bitmap_height(logo1) << "and" << al_get_bitmap_width(logo1) << std::endl;
+    std::cout << "Velikost obrazku2: " << al_get_bitmap_height(logo2) << "and" << al_get_bitmap_width(logo2) << std::endl;
+
 
     int numberOfSteps = FindLCM::calculateLCM(diffScreenLogoH, diffScreenLogoW); //Find Least Common Multiple
-    int cas = numberOfSteps / speedX; //time needed to hit corner (work in progress)
+    int timeToHitCorner = numberOfSteps / speedX; //time needed to hit corner (work in progress)
 
-    std::cout << numberOfSteps << std::endl;
-    std::cout << cas << std::endl;
+    std::cout << "Pocet kroku do rohu: " << numberOfSteps << std::endl;
+    std::cout << timeToHitCorner << std::endl;
 
     while (true) {
         // Nastavení barvy pozadí okna
@@ -76,6 +78,7 @@ int main() {
         // Kolize s okraji obrazovky
         if (x < 0 || x > SCREEN_WIDTH - al_get_bitmap_width(logo1)) {
             speedX = -speedX; // Obrat smìr na ose X
+
         }
 
         if (y < 0 || y > SCREEN_HEIGHT - al_get_bitmap_height(logo1)) {
@@ -83,12 +86,14 @@ int main() {
         }
 
         // Detekce, zda se logo dostalo do rohu
-        if (!logoChanged && ((x < 20 && y < 20) || (x == SCREEN_WIDTH - al_get_bitmap_width(logo1) && y == 0) ||
-            (x == 0 && y == SCREEN_HEIGHT - al_get_bitmap_height(logo1)) ||
-            (x == SCREEN_WIDTH - al_get_bitmap_width(logo1) && y == SCREEN_HEIGHT - al_get_bitmap_height(logo1)))) {
-            logoChanged = true;
+        if (x < 0 && y < 0 || x > SCREEN_WIDTH - al_get_bitmap_width(logo1) && y < 0 ||
+            x < 0 && y > SCREEN_HEIGHT - al_get_bitmap_height(logo1) ||
+            x > SCREEN_WIDTH - al_get_bitmap_width(logo1) && y > SCREEN_HEIGHT - al_get_bitmap_height(logo1)) {
+            std::cout << "trefil jsem roh" << std::endl;
+            logoChanged = !logoChanged;
+
         }
-        if (logoChanged == true) {
+        if (logoChanged) {
             al_draw_bitmap(logo2, x, y, 0); // druhý obrázek
         }
         else {
